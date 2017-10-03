@@ -1,0 +1,25 @@
+version: '2'
+services:
+  web:
+    image: nginx:1.12.1
+    links:
+      - php
+    ports:
+      - 3000:80
+    volumes:
+      - ./www:/usr/share/nginx/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+
+  php:
+    image: php:7.1.10-fpm
+    links:
+      - mysql
+    volumes:
+      - ./www:/var/www/html
+  
+  mysql:
+    image: mysql:8.0.3
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
